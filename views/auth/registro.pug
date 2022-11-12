@@ -1,0 +1,32 @@
+extends ../layout/index
+
+block contenido
+    div.py-10
+    h2.text-center.text-2xl.font-bold=top
+    div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-4xl my-10 md:px-10")
+        form.form.space-y-8
+            div.space-y-5.t
+                h3.text-lg.leading-6.font-medium.text-gray-900.text-center Informacion general del usuario
+
+                div(class="md:flex md:gap-4 space-y-2 md:space-y-0")
+                    div(class="md:w-1/2")
+                        label.block.text-sm.uppercase.text-gray-400.mb-2.ml-2.font-bold(for="fullName") Nombre
+                        input#fullName.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-500(placeholder="Nombre" type="text" name="fullName" value=newUser ? newUser.fullName : '')
+                    div(class="md:w-1/2")
+                        label.block.text-sm.uppercase.text-gray-400.mb-2.ml-2.font-bold(for="email") Email
+                        input#email.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-500(placeholder="Correo Electrónico " type="email" name="email" value=newUser ? newUser.email : '')
+                div(class="md:flex md:gap-4 space-y-2 md:space-y-0")
+                    div(class="md:w-1/2")
+                        label.block.text-sm.uppercase.text-gray-400.mb-2.ml-2.font-bold(for="phone") teléfono
+                        input#phone.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-500(placeholder="Teléfono" type="number" name="phone" min="1" value=newUser ? newUser.phone : '')
+                    div(class="md:w-1/2")
+                        label.block.text-sm.uppercase.text-gray-400.mb-2.ml-2.font-bold(for="dni") Identificacion
+                        input#dni.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-500(placeholder="Identidad Sin Guiones" type="number" name="dni" min="1" value=newUser ? newUser.dni : '')
+                div(class="md:flex md:gap-4 space-y-2 md:space-y-0")
+                    div(class="md:w-full")
+                        label.block.text-sm.uppercase.text-gray-400.mb-2.ml-2.font-bold.text-center(for="address") Dirección
+                        input#address.w-full.px-8.py-10.border.border-gray-300.rounded-md.placeholder-gray-500(placeholder="Dirección del inquilino" type="text" name="address" value=newUser ? newUser.address : '')
+                div(class="md:flex-row-4 gap-2").flex
+                    input(class="content-center w-1/2 bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer rounded-lg" type="submit" value="Guardar Usuario")
+                    a(href="/admin" class="content-center w-1/2 bg-red-400 hover:bg-red-700 text-white font-bold py-3 cursor-pointer rounded-lg text-center" ) Cancelar
+    script(src='/js/registro.js')
