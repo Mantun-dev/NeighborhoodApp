@@ -16,7 +16,7 @@ const User = db.define(
       },
     },
     dni: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER(13),
       allowNull: false,
       unique: {
         arg: true,
@@ -29,7 +29,7 @@ const User = db.define(
       },
     },
     phone: {
-      type: DataTypes.INTEGER(15),
+      type: DataTypes.INTEGER(8),
       allowNull: false,
       validate: {
         notNull: {

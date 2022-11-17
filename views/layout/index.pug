@@ -5,13 +5,25 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible" content="IE=edge")
         meta(name="viewport" content="width=device-width, initial-scale=1.0")
         title Mantun Vistors | #{page}
+
+        link(rel="stylesheet" href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css")
+
         link(rel="stylesheet" href="/css/app.css")
+        link(href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet")
+        script(type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js")
+        script(src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js")
+        script(src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js")
+        script(src="https://kit.fontawesome.com/7de00c4c6b.js" crossorigin="anonymous")
+
     body.min-h-screen-bg-gray-50
     if barra 
         include header
     main(class="mx-auto container mt-10 px-2")
         block contenido
+
     script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+
     script(src="//cdn.jsdelivr.net/npm/sweetalert2@11")
     script(src='/js/sweetAlert.js')
+
 

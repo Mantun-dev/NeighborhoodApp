@@ -1,9 +1,9 @@
-import User from '../models/userModel.js';
+import { User } from '../models/relationsModel.js';
 
 const checkToken = async (token) => {
   const user = await User.findOne({
     where: { token },
-    attributes: ['id', 'fullName', 'token', 'confirmed'],
+    attributes: ['id', 'fullName', 'token', 'confirmed', 'password'],
   });
 
   return user;

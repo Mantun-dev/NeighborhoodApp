@@ -1,15 +1,23 @@
+import jwt from 'jsonwebtoken';
 import { Op } from 'sequelize';
 import { nanoid } from 'nanoid';
-
-import User from '../models/userModel.js';
+import { User } from '../models/relationsModel.js';
 import { accountConfirmation } from '../helpers/emails.js';
 
 const getAllUsers = async (req, res) => {
-  const users = await User.findAll();
-  res.status(200).json({ status: 'ok', msg: 'Implementing', users });
+  const { _token } = req.cookies;
+  const decoded = jwt.verify(_token, process.env.JWT_SECRET);
+
+  const users = await User.findAll({
+    where: { adminID: decoded.id },
+    attributes: ['fullName', 'phone', 'neighborhoodName'],
+  });
+  res.send(users);
 };
 
 const newUser = async (req, res) => {
+  const { _token } = req.cookies;
+  const decoded = jwt.verify(_token, process.env.JWT_SECRET);
   try {
     const {
       fullName,
@@ -40,11 +48,13 @@ const newUser = async (req, res) => {
       email,
       dni,
       password,
-      neighborhoodName,
+      neighborhoodName: decoded.neighborhood,
       address,
       token: nanoid(10),
       rol,
       phone,
+      adminID: decoded.id,
+      colID: decoded.neighborhoodID,
     });
 
     accountConfirmation({
@@ -56,6 +66,7 @@ const newUser = async (req, res) => {
     return res.status(201).json({
       status: 'ok',
       msg: 'Usuario agregado exitosamente',
+      nUser,
     });
   } catch (error) {
     return res.status(404).json({

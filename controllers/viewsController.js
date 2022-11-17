@@ -1,6 +1,7 @@
-import { checkPassToken, checkToken } from './selfRegistrationController.js';
+import jwt from 'jsonwebtoken';
+import { checkPassToken, checkToken } from './tokensController.js';
 
-const loginForm = (req, res) => {
+const loginForm = async (req, res) => {
   res.status(200).render('auth/login', {
     page: 'Login',
   });
@@ -14,9 +15,14 @@ const regForm = (req, res) => {
 };
 
 const adminPanel = (req, res) => {
+  const { _token } = req.cookies;
+  const decoded = jwt.verify(_token, process.env.JWT_SECRET);
+  console.log(decoded);
   res.status(200).render('auth/adminPanel', {
     page: 'Admin Panel',
     barra: true,
+    user: decoded.name,
+    neighborhood: decoded.neighborhood,
   });
 };
 
@@ -44,14 +50,12 @@ const accountConfirmationEmail = async (req, res) => {
   const { token } = req.params;
   const userToken = await checkToken(token);
   if (userToken !== null) {
-    res.status(200).render('auth/accountConfirmation', {
+    res.status(200).render('auth/forgotPassword', {
       page: 'Account Confirmation',
       top: `¡Woha! ¡Bienvenido ${userToken.fullName}!`,
-      message: 'Se ha confirmado tu cuenta correctamente',
+      instructions:
+        'Por favor introduce una nueva contraseña para completar la activacion de tu cuenta',
     });
-    userToken.token = null;
-    userToken.confirmed = true;
-    userToken.save();
   } else {
     return res.status(404).render('auth/accountConfirmation', {
       page: 'Error',
@@ -62,4 +66,18 @@ const accountConfirmationEmail = async (req, res) => {
   }
 };
 
-export { loginForm, regForm, adminPanel, forgotPass, accountConfirmationEmail };
+const newNeighborhood = async (req, res) => {
+  res.status(200).render('auth/neighborhoods', {
+    page: 'Neighborhoods',
+    barra: true,
+  });
+};
+
+export {
+  loginForm,
+  regForm,
+  adminPanel,
+  forgotPass,
+  accountConfirmationEmail,
+  newNeighborhood,
+};

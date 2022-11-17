@@ -1,0 +1,26 @@
+extends ../layout/index
+
+block contenido
+    div.py-1
+    h2.text-center.text-2xl.font-bold=top
+    div(class="bg-white shadow py-8 px-4 rounded mx-auto max-w-2xl my-10 md:px-8")
+        form.form.space-y-8
+            div.space-y-5.t
+                h3.text-lg.leading-6.font-medium.text-gray-900.text-center Agregar Nueva Colonia
+                div(class="md:grid md:gap-4 space-y-2 md:space-y-0 text-center")
+                    div(class="md:w-full")
+                        label.block.text-sm.uppercase.text-gray-400.mb-2.ml-2.font-bold(for="departamento") Departamento
+                        select#departamento.w-full.px-3.py-2.border.border-gray-300.rounded-md.text-center(name="departamento")
+                            option(value="" disabled selected) - Seleccione un departamento
+                    div(class="md:w-full")
+                        label.block.text-sm.uppercase.text-gray-400.mb-2.ml-2.font-bold(for="municipio") Municipio
+                        select#municipio.w-full.px-3.py-2.border.border-gray-300.rounded-md.text-center(name="municipio")
+                            option(value="" disabled selected) -Seleccione un municipio
+
+                    div(class="md:w-full")
+                        label.block.text-sm.uppercase.text-gray-400.mb-2.ml-2.font-bold.text-center(for="nombre") Colonia
+                        input#nombre.w-full.px-8.py-10.border.border-gray-300.rounded-md.placeholder-gray-500(placeholder="Nombre de la nueva colonia" type="text" name="nombre")
+                div(class="md:flex-row-4 gap-2").flex
+                    button#loginButton(class="w-1/2 bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer rounded-lg" type="submit") Agregar Colonia
+                    a(href="/admin" class="content-center w-1/2 bg-red-400 hover:bg-red-700 text-white font-bold py-3 cursor-pointer rounded-lg text-center") Cancelar
+    script(src='/js/neighborhoods.js')

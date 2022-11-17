@@ -13,8 +13,8 @@ block contenido
                 label.block.text-sm.uppercase.text-gray-400.mb-2.text-center.font-bold(for="pass") Password
                 input#pass.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-500(placeholder="Contraseña" type="password" name="password")
             div.flex.items-center.justify-between.text-sm
-                a.text-gray-500(href="/v1/registro") ¿No tienes cuenta? Registrate
-                button#forgotPass.text-gray-500(href="/v1/resetpass" type="button") Olvide mi contraseña
+                button#selfRegistration.text-gray-500(type="button") ¿No tienes cuenta? Registrate
+                button#forgotPass.text-gray-500(type="button") Olvide mi contraseña
             div.text-center
                 button#loginButton(class="w-1/2 bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer rounded-lg" type="submit") Iniciar Sesión
     script(src='/js/login.js')

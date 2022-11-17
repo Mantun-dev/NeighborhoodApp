@@ -4,7 +4,6 @@ const registro = async (
   phone,
   email,
   password,
-  neighborhoodName,
   address,
   rol
 ) => {
@@ -18,7 +17,6 @@ const registro = async (
         phone,
         email,
         password,
-        neighborhoodName,
         address,
         rol,
       },
@@ -47,14 +45,5 @@ document.querySelector('.form').addEventListener('submit', (e) => {
   const phone = document.getElementById('phone').value;
   const dni = document.getElementById('dni').value;
   const address = document.getElementById('address').value;
-  registro(
-    fullName,
-    dni,
-    phone,
-    email,
-    'holamundo',
-    'La Trinidad',
-    address,
-    'Guardia'
-  );
+  registro(fullName, dni, phone, email, 'holamundo', address, 'Guardia');
 });
