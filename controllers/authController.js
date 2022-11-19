@@ -211,10 +211,26 @@ const selfRegistration = async (req, res) => {
   });
 };
 
+const signOut = (req, res) => {
+  try {
+    res.cookie('_token', 'loggedout', {
+      expires: new Date(Date.now() + 10 * 1000),
+      httpOnly: true,
+    });
+    res.status(200).json({
+      status: 'ok',
+      msg: `Hasta la proxima!`,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   usersLogin,
   adminLogin,
   forgotPassRequest,
   updatePassword,
   selfRegistration,
+  signOut,
 };

@@ -10,7 +10,7 @@ const getAllUsers = async (req, res) => {
 
   const users = await User.findAll({
     where: { adminID: decoded.id },
-    attributes: ['fullName', 'phone', 'neighborhoodName'],
+    attributes: ['id', 'fullName', 'phone', 'neighborhoodName'],
   });
   res.send(users);
 };
@@ -86,9 +86,28 @@ const updateUser = (req, res) => {
   res.status(200).json({ status: 'ok', msg: 'Implementing', id });
 };
 
-const deleteUser = (req, res) => {
-  const { id } = req.params;
-  res.status(200).json({ status: 'ok', msg: 'Implementing', id });
+const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findOne({ where: { id } });
+    if (!user) {
+      return res.status(404).json({
+        status: 'fail',
+        msg: 'El usuario no existe',
+      });
+    }
+    await user.destroy();
+    return res.status(201).json({
+      status: 'ok',
+      msg: 'El usuario ha sido eliminado',
+    });
+  } catch (error) {
+    return res.status(201).json({
+      status: 'ok',
+      msg: error,
+    });
+  }
 };
 
 export { getAllUsers, newUser, getUser, updateUser, deleteUser };

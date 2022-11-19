@@ -1,46 +1,33 @@
 extends ../layout/index
 
 block contenido
+
     div.py-1
     h1.text-4xl.my-5.font-bold.text-center ¡Bienvenido, 
         span.font-normal #{user}
         span.font-bold !
     h2.text-center.text-2xl.font-bold.py-1=top
-    div(class="md:flex md:gap-4 space-y-2 md:space-y-0 justify-center")
-        a(href='/registro' class="bg-indigo-400 hover:bg-indigo-600 rounded-md py-4 px-4 text-md text-white font-bold text-center inline-block w-full md:w-auto") Agregar Nuevo Residente
-        a(href='/colonias' class="bg-indigo-400 hover:bg-indigo-600 rounded-md py-4 px-4 text-md text-white font-bold text-center inline-block w-full md:w-auto") Agregar Nueva Colonia
-        a(href='/v1/admin/guard' class="bg-indigo-400 hover:bg-indigo-600 rounded-md py-4 px-4 text-md text-white font-bold text-center inline-block w-full md:w-auto") Agregar Nuevo Guardia
-        .flex.space-x-2.justify-center
+    include adminRegister
     div
         .container.w-full.mx-auto.px-2(class='md:w-4/5 xl:w-3/5')
-    .bg-stone-500.text-gray-100.text-center.rounded.my-2
-        p.text-xl Residentes de la colonia #{neighborhood}
+    .bg-stone-500.text-gray-100.text-center.rounded.my-7
+        //- p.text-xl Residentes de la colonia #{neighborhood}
     #recipients.p-8.mt-6.rounded.shadow.bg-white(class='lg:mt-0')
         table#users.stripe.hover(style='width:100%; padding-top: 1em;  padding-bottom: 1em;')
             thead
                 tr.bg-indigo-400.bg-opacity-100.text-white
-                    th(data-priority='1') NOMBRE
-                    th(data-priority='2') TELEFONO
-                    th(data-priority='3') COLONIA
-                    th(data-priority='4') ACCIONES
+
+                    th(data-priority='1') ID
+                    th(data-priority='2') NOMBRE
+                    th(data-priority='3') TELEFONO
+                    th(data-priority='4') COLONIA
+                    th(data-priority='5') ACCIONES
 
             tbody
-    script.
-        $(document).ready(function(){
-            const url = 'http://localhost:3000/api/v1/admin';
-            $('#users').DataTable({
-                ajax:{
-                    url:url,
-                    dataSrc:''
-                },
-                columns:[
-                    {data: "fullName"},
-                    {data: "phone"},
-                    {data: "neighborhoodName"},
-                    {defaultContent: "<button type='button' class='editar bg-indigo-400 hover:bg-indigo-600 rounded-md py-2 px-4 text-md text-white font-bold text-center inline-block w-full md:w-auto'><i class='fa-regular fa-pen-to-square'></i></button>  <button type='button' class='eliminar bg-red-400 hover:bg-red-600  rounded-md py-2 px-4 text-md text-white font-bold text-center inline-block w-full md:w-auto'><i class='fa-solid fa-trash-can'></i></button> "}
+    script(src='/js/registro.js')
 
-                ],
-                responsive: true
-            }).columns.adjust()
-            .responsive.recalc();
-        })
+
+
+
+
+

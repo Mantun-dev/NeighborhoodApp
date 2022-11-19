@@ -8,7 +8,7 @@ import {
 } from '../controllers/usersController.js';
 
 import {
-  usersLogin,
+  signOut,
   adminLogin,
   forgotPassRequest,
   selfRegistration,
@@ -17,6 +17,7 @@ import {
 const router = express.Router();
 
 router.route('/login').post(adminLogin);
+router.route('/logout').get(signOut);
 router.route('/forgotpassword').post(forgotPassRequest);
 router.route('/selfregistration').post(selfRegistration);
 

@@ -57,7 +57,7 @@ const countyName = (data, state) => {
     '<option value="" disabled selected>- Seleccione un municipio</option>';
   for (let i = 0; i < z.length; i++) {
     const y = document.createElement('option');
-    y.text = z[i].nombre;
+    y.text = z[i].nombre || z[i].name;
     // y.value = idDepa;
     municipio.options.add(y);
   }

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../models/relationsModel.js';
 
-const routeProtection = async (req, res, next) => {
+export const routeProtection = async (req, res, next) => {
   // Verificar si hay token
 
   const { _token } = req.cookies;
@@ -27,7 +27,6 @@ const routeProtection = async (req, res, next) => {
 
     return next();
   } catch (error) {
-    console.log(error);
     return res.clearCookie('_token').redirect('/login');
   }
 };
