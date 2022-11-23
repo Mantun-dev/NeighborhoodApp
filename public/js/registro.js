@@ -30,6 +30,7 @@ const registro = async (
       });
     }
   } catch (error) {
+    console.log(error);
     Swal.fire({
       title: 'Error',
       text: error.response.data.msg,
@@ -50,6 +51,7 @@ document.querySelector('#coco').addEventListener('click', (e) => {
 
 $(document).ready(function () {
   const url = 'http://localhost:3000/api/v1/admin/';
+
   $('#users')
     .DataTable({
       ajax: {
@@ -60,7 +62,6 @@ $(document).ready(function () {
         { data: 'id' },
         { data: 'fullName' },
         { data: 'phone' },
-        { data: 'neighborhoodName' },
         {
           defaultContent:
             "<button  type='button' class='editar bg-indigo-400 hover:bg-indigo-600 rounded-md py-2 px-4 mb-2 text-md text-white font-bold text-center inline-block w-full md:w-auto'><i class='fa-regular fa-pen-to-square'></i></button>  <button type='button' class='eliminar bg-red-400 hover:bg-red-600  rounded-md py-2 px-4 mb-2 text-md text-white font-bold text-center inline-block w-full md:w-auto'><i class='fa-solid fa-trash-can'></i></button> ",

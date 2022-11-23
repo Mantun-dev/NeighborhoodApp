@@ -1,5 +1,7 @@
 import User from '../models/usersModel.js';
 import Colonias from '../models/neighborhoodsModel.js';
+import Guest from '../models/guestsModel.js';
+import Visitor from '../models/vistorsModel.js';
 
 // * Un administrador puede agregar muchos usuarios
 
@@ -13,4 +15,19 @@ Colonias.belongsTo(User, { foreignKey: 'adminID' });
 
 Colonias.hasMany(User, { foreignKey: 'colID' });
 
-export { User, Colonias };
+// * Una colonia tiene muchos visitantes
+
+Colonias.hasMany(Visitor, { foreignKey: 'colID' });
+
+// * GUEST
+Guest.hasMany(Visitor, { foreignKey: 'guestID' });
+
+// * VISITOR
+
+User.hasMany(Visitor, { foreignKey: 'userID' });
+
+// * GUARD
+
+User.hasMany(Visitor, { foreignKey: 'guardID' });
+
+export { User, Colonias, Guest };

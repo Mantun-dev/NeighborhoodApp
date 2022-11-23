@@ -1,0 +1,18 @@
+extends ../layout/index
+block contenido
+    div
+        .container.w-auto.mx-auto.px-2(class='md:w-4/5 xl:w-3/5 ')
+    .bg-stone-500.text-gray-100.text-center.rounded
+        //- p.text-xl Residentes de la colonia #{neighborhood}
+    #recipients.p-8.mt-6.rounded.shadow.bg-white(class='lg:mt-0 mb-10 ')
+        table#reports.stripe.hover(style='width:100%; padding-top: 1em;  padding-bottom: 1em ;')
+            thead
+                tr.bg-indigo-400.bg-opacity-100.text-white
+
+                    th(data-priority='1') FECHA Y HORA DE ENTRADA
+                    th(data-priority='2') FECHA Y HORA DE SALIDA
+                    th(data-priority='3') COLONIA
+
+
+            tbody
+    script(src='/js/reports.js')

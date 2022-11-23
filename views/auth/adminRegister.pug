@@ -1,5 +1,6 @@
+
 div 
-    button.text-white.font-small.rounded-lg.text-center(class="sm:w-full md:w-1/4 content-center  inline-block bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer rounded-lg text-center" type='button' data-modal-toggle='defaultModal')
+    button.text-white.font-small.rounded-lg.text-center(class="sm:w-full md:w-1/4 content-center mb-3  inline-block bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer rounded-lg text-center" type='button' data-modal-toggle='defaultModal')
         | Agregar Nuevo Usuario
     // Main modal
     #defaultModal.hidden.overflow-y-auto.overflow-x-hidden.fixed.top-0.right-0.left-0.z-50.p-4.w-full.h-modal(tabindex='-1' aria-hidden='true' class='md:inset-0 md:h-full')
@@ -8,7 +9,7 @@ div
             .relative.bg-white.rounded-lg.shadow(class='dark:bg-white-700')
                 // Modal header
                 .flex.justify-between.items-start.p-4.rounded-t.border-b(class='dark:border-gray-600')
-                    a.text-gray-400.bg-transparent.rounded-lg.text-sm.ml-auto.inline-flex.items-center(type='button' href="/admin" class='hover:bg-gray-200 hover:text-gray-900 p-1.5 dark:hover:bg-gray-600 dark:hover:text-white' data-modal-toggle='defaultModal')
+                    a.text-gray-400.bg-transparent.rounded-lg.text-sm.ml-auto.inline-flex.items-center(type='button' class='hover:bg-gray-200 hover:text-gray-900 p-1.5 dark:hover:bg-gray-600 dark:hover:text-white' data-modal-toggle='defaultModal')
                         svg.w-5.h-5(aria-hidden='true' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg')
                             path(fill-rule='evenodd' d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z' clip-rule='evenodd')
                         span.sr-only Close modal

@@ -11,7 +11,7 @@ const getAllNeighborhoods = async (req, res) => {
 const newNeighborhood = async (req, res) => {
   const { _token } = req.cookies;
   const decoded = jwt.verify(_token, process.env.JWT_SECRET);
-  console.log(decoded);
+
   const { name, county, state } = req.body;
   try {
     const newNeighborhood = await Colonias.create({

@@ -10,18 +10,17 @@ block contenido
     include adminRegister
     div
         .container.w-full.mx-auto.px-2(class='md:w-4/5 xl:w-3/5')
-    .bg-stone-500.text-gray-100.text-center.rounded.my-7
+    .bg-stone-500.text-gray-100.text-center.rounded
         //- p.text-xl Residentes de la colonia #{neighborhood}
-    #recipients.p-8.mt-6.rounded.shadow.bg-white(class='lg:mt-0')
-        table#users.stripe.hover(style='width:100%; padding-top: 1em;  padding-bottom: 1em;')
+    #recipients.p-8.mt-6.rounded.shadow.bg-white(class='lg:mt-0 mb-10')
+        table#users.stripe.hover(style='width:100%; padding-top: 1em;  padding-bottom: 1em ;')
             thead
                 tr.bg-indigo-400.bg-opacity-100.text-white
 
                     th(data-priority='1') ID
                     th(data-priority='2') NOMBRE
                     th(data-priority='3') TELEFONO
-                    th(data-priority='4') COLONIA
-                    th(data-priority='5') ACCIONES
+                    th(data-priority='4') ACCIONES
 
             tbody
     script(src='/js/registro.js')

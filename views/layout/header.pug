@@ -3,7 +3,15 @@ nav.bg-white.border-gray-200.px-2(class='sm:px-4 py-2.5 bg-indigo-600')
     .container.flex.flex-wrap.items-center.justify-between.mx-auto
         a.flex.items-center(href='/admin')
             img.h-6.mr-3(src='/img/icon3.svg' class='sm:h-9' alt='Flowbite Logo')
-            span.self-center.text-xl.font-semibold.whitespace-nowrap(class='dark:text-white') Mantun Visitors
+            span.self-center.text-xl.font-semibold.white
+
+
+
+
+
+
+
+            space-nowrap(class='dark:text-white') Mantun Visitors
         button.inline-flex.items-center.p-2.ml-3.text-sm.text-gray-500.rounded-lg(data-collapse-toggle='navbar-default' type='button' class='md:hidden hover:bg-indigo-800 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-indigo-700 dark:focus:ring-indigo-600' aria-controls='navbar-default' aria-expanded='false')
             svg.w-6.h-6(aria-hidden='true' fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg')
                 path(fill-rule='evenodd' d='M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z' clip-rule='evenodd')
@@ -12,9 +20,9 @@ nav.bg-white.border-gray-200.px-2(class='sm:px-4 py-2.5 bg-indigo-600')
                 li
                     a.block.py-2.pl-3.pr-4.text-gray-700.rounded(href='/admin' class='hover:bg-indigo-100 md:hover:bg-transparent md:border-0  md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-indigo-400 dark:hover:text-white md:dark:hover:bg-transparent') Home
                 li
-                    a.block.py-2.pl-3.pr-4.text-gray-700.rounded(href='#' class='hover:bg-indigo-100 md:hover:bg-transparent md:border-0  md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-indigo-400 dark:hover:text-white md:dark:hover:bg-transparent') About
+                    a.block.py-2.pl-3.pr-4.text-gray-700.rounded(href='/reportes' class='hover:bg-indigo-100 md:hover:bg-transparent md:border-0  md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-indigo-400 dark:hover:text-white md:dark:hover:bg-transparent') Reportes
                 li
-                    a.block.py-2.pl-3.pr-4.text-gray-700.rounded(href='#' class='hover:bg-indigo-100 md:hover:bg-transparent md:border-0  md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-indigo-400 dark:hover:text-white md:dark:hover:bg-transparent') Perfil
+                    a.block.py-2.pl-3.pr-4.text-gray-700.rounded(href='/profile' class='hover:bg-indigo-100 md:hover:bg-transparent md:border-0  md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-indigo-400 dark:hover:text-white md:dark:hover:bg-transparent') Perfil
                 li
-                    button#signOut.block.py-2.pl-3.pr-4.text-gray-700.rounded(href='#' class='hover:bg-indigo-100 md:hover:bg-transparent md:border-0  md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-indigo-400 dark:hover:text-white md:dark:hover:bg-transparent' type="submit") Cerrar Sesión
+                    a#signOut.block.py-2.pl-3.pr-4.text-gray-700.rounded(href='#' class='hover:bg-indigo-100 md:hover:bg-transparent md:border-0  md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-indigo-400 dark:hover:text-white md:dark:hover:bg-transparent' type="submit") Cerrar Sesión
     script(src='/js/signOut.js')

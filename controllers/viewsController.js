@@ -17,12 +17,10 @@ const regForm = (req, res) => {
 const adminPanel = (req, res) => {
   const { _token } = req.cookies;
   const decoded = jwt.verify(_token, process.env.JWT_SECRET);
-  console.log(decoded);
   res.status(200).render('auth/adminPanel', {
     page: 'Admin Panel',
     barra: true,
     user: decoded.name,
-    neighborhood: decoded.neighborhood,
   });
 };
 
@@ -72,6 +70,19 @@ const newNeighborhood = async (req, res) => {
     barra: true,
   });
 };
+const userProfile = async (req, res) => {
+  res.status(200).render('auth/userProfile', {
+    page: 'Neighborhoods',
+    barra: true,
+  });
+};
+
+const reports = async (req, res) => {
+  res.status(200).render('reports/reportsView', {
+    page: 'Reports',
+    barra: true,
+  });
+};
 
 export {
   loginForm,
@@ -80,4 +91,6 @@ export {
   forgotPass,
   accountConfirmationEmail,
   newNeighborhood,
+  userProfile,
+  reports,
 };

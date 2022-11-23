@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { validationResult } from 'express-validator';
 import { Op } from 'sequelize';
 import { nanoid } from 'nanoid';
 import { User } from '../models/relationsModel.js';
@@ -9,8 +10,8 @@ const getAllUsers = async (req, res) => {
   const decoded = jwt.verify(_token, process.env.JWT_SECRET);
 
   const users = await User.findAll({
-    where: { adminID: decoded.id },
-    attributes: ['id', 'fullName', 'phone', 'neighborhoodName'],
+    where: { adminID: decoded.id, status: 1 },
+    attributes: ['id', 'fullName', 'phone'],
   });
   res.send(users);
 };
@@ -18,17 +19,17 @@ const getAllUsers = async (req, res) => {
 const newUser = async (req, res) => {
   const { _token } = req.cookies;
   const decoded = jwt.verify(_token, process.env.JWT_SECRET);
+
+  let result = validationResult(req);
+
+  if (!result.isEmpty()) {
+    return res.status(400).json({
+      status: 'fail',
+      msg: 'Por favor verifique los datos introducidos',
+    });
+  }
   try {
-    const {
-      fullName,
-      email,
-      dni,
-      password,
-      neighborhoodName,
-      address,
-      rol,
-      phone,
-    } = req.body;
+    const { fullName, email, dni, password, address, rol, phone } = req.body;
 
     const user = await User.findOne({
       where: {
@@ -48,7 +49,6 @@ const newUser = async (req, res) => {
       email,
       dni,
       password,
-      neighborhoodName: decoded.neighborhood,
       address,
       token: nanoid(10),
       rol,
@@ -69,7 +69,7 @@ const newUser = async (req, res) => {
       nUser,
     });
   } catch (error) {
-    return res.status(404).json({
+    return res.status(500).json({
       status: 'fail',
       msg: 'Por favor complete todos los campos necesarios',
     });
@@ -97,14 +97,14 @@ const deleteUser = async (req, res) => {
         msg: 'El usuario no existe',
       });
     }
-    await user.destroy();
+    await user.update({ status: 0 });
     return res.status(201).json({
       status: 'ok',
       msg: 'El usuario ha sido eliminado',
     });
   } catch (error) {
     return res.status(201).json({
-      status: 'ok',
+      status: 'fail',
       msg: error,
     });
   }

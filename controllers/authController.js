@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import { User } from '../models/relationsModel.js';
 import { forgotPassEmail, accountConfirmation } from '../helpers/emails.js';
@@ -7,6 +8,15 @@ import { signToken } from '../helpers/tokens.js';
 // ? LOGGIN
 
 const usersLogin = async (req, res, next) => {
+  let result = validationResult(req);
+
+  if (!result.isEmpty()) {
+    return res.status(400).json({
+      status: 'fail',
+      msg: 'Por favor complete todos los campos para poder iniciar sesion',
+    });
+  }
+
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -59,14 +69,16 @@ const usersLogin = async (req, res, next) => {
 // ? ADMIN LOGIN
 
 const adminLogin = async (req, res, next) => {
-  const { email, password } = req.body;
+  let result = validationResult(req);
 
-  if (!email || !password) {
+  if (!result.isEmpty()) {
     return res.status(400).json({
       status: 'fail',
-      msg: 'Por favor introduza un correo y una contraseñas ',
+      msg: 'Por favor complete todos los campos para poder iniciar sesion',
     });
   }
+
+  const { email, password } = req.body;
 
   const user = await User.findOne({
     where: { email },
@@ -77,11 +89,11 @@ const adminLogin = async (req, res, next) => {
       'confirmed',
       'rol',
       'colID',
-      'neighborhoodName',
+      'status',
     ],
   });
 
-  if (!user) {
+  if (!user || !user.status) {
     return res.status(400).json({
       status: 'fail',
       msg: 'Usuario o contraseñas invalido',
@@ -112,7 +124,6 @@ const adminLogin = async (req, res, next) => {
   const token = signToken({
     id: user.id,
     name: user.fullName,
-    neighborhood: user.neighborhoodName,
     neighborhoodID: user.colID,
   });
 

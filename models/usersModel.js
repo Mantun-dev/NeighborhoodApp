@@ -72,9 +72,10 @@ const User = db.define(
         },
       },
     },
-    neighborhoodName: {
-      type: DataTypes.STRING(50),
+    status: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: true,
       validate: {
         notNull: {
           msg: 'Por favor ingrese una colonia',
@@ -117,7 +118,6 @@ const User = db.define(
           'fullName',
           'rol',
           'address',
-          'neighborhoodName',
           'securityCode',
           'email',
           'phone',

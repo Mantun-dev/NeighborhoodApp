@@ -4,13 +4,21 @@ import {
   getAllVisitors,
   newVisitor,
   getVisitor,
-  updateVisitor,
+  departure,
   deleteVisitor,
+  arrival,
+  reports,
 } from '../controllers/visitorsController.js';
 
 const router = express.Router();
 
 router.route('/').get(getAllVisitors).post(newVisitor);
-router.route('/:id').get(getVisitor).patch(updateVisitor).delete(deleteVisitor);
+router.route('/reports').get(reports);
+router
+  .route('/:id')
+  .get(getVisitor)
+  .put(departure)
+  .delete(deleteVisitor)
+  .patch(arrival);
 
 export default router;

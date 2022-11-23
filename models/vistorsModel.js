@@ -7,15 +7,6 @@ const Visitor = db.define('visitors', {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  guestType: {
-    type: DataTypes.TINYINT,
-    allowNull: false,
-    validate: {
-      notNull: {
-        msg: 'Por favor ingrese el tipo de visita',
-      },
-    },
-  },
   arrivalDate: {
     type: DataTypes.DATE,
     allowNull: false,
