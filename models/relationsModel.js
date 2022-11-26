@@ -30,4 +30,4 @@ User.hasMany(Visitor, { foreignKey: 'userID' });
 
 User.hasMany(Visitor, { foreignKey: 'guardID' });
 
-export { User, Colonias, Guest };
+export { User, Colonias, Guest, Visitor };

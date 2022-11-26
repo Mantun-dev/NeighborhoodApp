@@ -1,8 +1,8 @@
 import { nanoid } from 'nanoid';
-import { Op } from 'sequelize';
+import { JSON, Op } from 'sequelize';
+import db from '../config/db.js';
 import jwt from 'jsonwebtoken';
-import Visitor from '../models/vistorsModel.js';
-import Guest from '../models/guestsModel.js';
+import { Visitor, Guest } from '../models/relationsModel.js';
 
 const getAllVisitors = async (req, res) => {
   const visitors = await Visitor.findAll();
@@ -102,8 +102,37 @@ const departure = async (req, res) => {
   try {
     const { guardID } = req.body;
     const { id } = req.params;
+    const departureDate = new Date();
+
     const visitor = await Visitor.findOne({ where: { id } });
-    await visitor.update({ guardID, departureDate: new Date() });
+
+    // await visitor.update({ guardID, departureDate: new Date() });
+
+    if (!visitor) {
+      return res.status(404).json({
+        status: 'ok',
+        msg: 'La visita no existe',
+        test,
+      });
+    }
+
+    if (visitor.departureDate != null) {
+      return res.status(404).json({
+        status: 'fail',
+        msg: 'El codigo de salida ya ha sido registrado',
+      });
+    }
+
+    const test = await db.query(
+      'CALL VISITOR_DEPARTURE(:_ID, :_GUARDID, :_DEPARTUREDATE)',
+      {
+        replacements: {
+          _ID: id,
+          _GUARDID: guardID,
+          _DEPARTUREDATE: departureDate,
+        },
+      }
+    );
 
     return res.status(200).json({
       status: 'ok',
@@ -112,7 +141,7 @@ const departure = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       status: 'fail',
-      msg: 'La visita no existe',
+      msg: error,
     });
   }
 };
@@ -128,19 +157,37 @@ const deleteVisitor = async (req, res) => {
 
 const reports = async (req, res) => {
   try {
+    let { initialDate, endDate } = req.body;
+
     const { _token } = req.cookies;
     const decoded = jwt.verify(_token, process.env.JWT_SECRET);
-    const startedDate = new Date('2022-11-15 03:14:47');
-    const endDate = new Date('2022-11-24 21:41:05');
+    initialDate = new Date(initialDate);
+    endDate = new Date(endDate);
     const colID = decoded.neighborhoodID;
-    const visitors = await Visitor.findAll({
-      where: {
-        colID,
-        arrivalDate: { [Op.between]: [startedDate, endDate] },
-      },
-    });
 
-    return res.status(200).send(visitors);
+    // const visitors = await Visitor.findAll({
+    //   where: {
+    //     colID,
+    //     arrivalDate: { [Op.between]: [initialDate, endDate] },
+    //   },
+    // });
+
+    const visitors = await db.query(
+      'CALL VISITOR_REPORTS(:_COL_ID, :_INITIAL_DATE, :_END_DATE)',
+      {
+        replacements: {
+          _COL_ID: colID,
+          _INITIAL_DATE: initialDate,
+          _END_DATE: endDate,
+        },
+      }
+    );
+
+    return res.status(200).json({
+      status: 'ok',
+      msg: 'Generando Reporte',
+      visitors,
+    });
   } catch (error) {
     return res.status(200).json({
       status: 'fail',

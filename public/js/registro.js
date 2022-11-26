@@ -68,6 +68,10 @@ $(document).ready(function () {
         },
       ],
       responsive: true,
+      bDestroy: true,
+      stateSave: true,
+
+      paging: true,
     })
     .columns.adjust()
     .responsive.recalc();

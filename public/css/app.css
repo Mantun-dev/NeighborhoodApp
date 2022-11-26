@@ -546,6 +546,18 @@ video {
   margin-top: 1.75rem;
   margin-bottom: 1.75rem;
 }
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -645,6 +657,9 @@ video {
 .flex-initial {
   flex: 0 1 auto;
 }
+.flex-auto {
+  flex: 1 1 auto;
+}
 .cursor-pointer {
   cursor: pointer;
 }
@@ -674,6 +689,9 @@ video {
 }
 .gap-2 {
   gap: 0.5rem;
+}
+.gap-4 {
+  gap: 1rem;
 }
 .space-y-6 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;

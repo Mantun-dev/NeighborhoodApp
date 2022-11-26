@@ -15,13 +15,20 @@ import {
   selfRegistration,
 } from '../controllers/authController.js';
 
+import routeProtection from '../middlewares/routeProtection.js';
+
 const router = express.Router();
 
 router
   .route('/login')
   .post(
-    body('email').isEmail().notEmpty(),
-    body('password').notEmpty(),
+    body('email')
+      .isEmail()
+      .notEmpty()
+      .withMessage('Por favor introduzca un correo electronico valido'),
+    body('password')
+      .notEmpty()
+      .withMessage('Por favor introduzca una contrasena'),
     adminLogin
   );
 router.route('/logout').get(signOut);
@@ -30,7 +37,7 @@ router.route('/selfregistration').post(selfRegistration);
 
 router
   .route('/')
-  .get(getAllUsers)
+  .get(routeProtection, getAllUsers)
   .post(
     body('fullName').notEmpty().withMessage('Nombre'),
     body('email').isEmail().withMessage('Correo'),
@@ -44,9 +51,14 @@ router
     body('dni')
       .isLength({ max: 13 })
       .withMessage('Por favor ingrese un DNI válido'),
+    routeProtection,
 
     newUser
   );
-router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
+router
+  .route('/:id')
+  .get(routeProtection, getUser)
+  .patch(routeProtection, updateUser)
+  .delete(routeProtection, deleteUser);
 
 export default router;

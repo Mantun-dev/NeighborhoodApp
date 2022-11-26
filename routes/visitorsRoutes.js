@@ -13,7 +13,7 @@ import {
 const router = express.Router();
 
 router.route('/').get(getAllVisitors).post(newVisitor);
-router.route('/reports').get(reports);
+router.route('/reports').post(reports);
 router
   .route('/:id')
   .get(getVisitor)

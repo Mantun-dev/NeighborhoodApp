@@ -6,14 +6,18 @@ import { User } from '../models/relationsModel.js';
 import { accountConfirmation } from '../helpers/emails.js';
 
 const getAllUsers = async (req, res) => {
-  const { _token } = req.cookies;
-  const decoded = jwt.verify(_token, process.env.JWT_SECRET);
+  try {
+    const { _token } = req.cookies;
+    const decoded = jwt.verify(_token, process.env.JWT_SECRET);
 
-  const users = await User.findAll({
-    where: { adminID: decoded.id, status: 1 },
-    attributes: ['id', 'fullName', 'phone'],
-  });
-  res.send(users);
+    const users = await User.findAll({
+      where: { adminID: decoded.id, status: 1 },
+      attributes: ['id', 'fullName', 'phone'],
+    });
+    res.send(users);
+  } catch (error) {
+    return res.redirect('/login');
+  }
 };
 
 const newUser = async (req, res) => {

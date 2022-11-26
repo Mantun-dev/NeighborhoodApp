@@ -1,5 +1,9 @@
 extends ../layout/index
 block contenido
+    div.container.w-auto.mx-auto.px-2.my-4.flex.gap-4(class='md:w-4/5 xl:w-3/5 flex-initial')
+        input#initalDate(type="date")
+        input#endDate(type="date")
+        button#generateReporte(class="w-1/2 bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer rounded-lg" type="submit" ) Generar Reporte 
     div
         .container.w-auto.mx-auto.px-2(class='md:w-4/5 xl:w-3/5 ')
     .bg-stone-500.text-gray-100.text-center.rounded
@@ -11,7 +15,9 @@ block contenido
 
                     th(data-priority='1') FECHA Y HORA DE ENTRADA
                     th(data-priority='2') FECHA Y HORA DE SALIDA
-                    th(data-priority='3') COLONIA
+                    th(data-priority='3') VISITANTE
+                    th(data-priority='4') COLONIA
+                    th(data-priority='5') RESIDENTE
 
 
             tbody
