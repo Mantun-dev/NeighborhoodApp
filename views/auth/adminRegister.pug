@@ -1,7 +1,6 @@
 
 div 
-    button.text-white.font-small.rounded-lg.text-center(class="sm:w-full md:w-1/4 content-center mb-3  inline-block bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer rounded-lg text-center" type='button' data-modal-toggle='defaultModal')
-        | Agregar Nuevo Usuario
+    button.text-white.font-small.text-center(class="xs:w-full content-center mb-3 px-2 bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer rounded-lg text-center" type='button' data-modal-toggle='defaultModal') <i class="fa-solid fa-user-plus"></i> Agregar Nuevo Usuario
     // Main modal
     #defaultModal.hidden.overflow-y-auto.overflow-x-hidden.fixed.top-0.right-0.left-0.z-50.p-4.w-full.h-modal(tabindex='-1' aria-hidden='true' class='md:inset-0 md:h-full')
         .relative.w-full.max-w-2xl.h-full(class='md:h-auto')

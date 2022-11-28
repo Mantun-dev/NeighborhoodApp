@@ -19,12 +19,34 @@ const generarReporte = async (initialDate, endDate) => {
       $('#reports')
         .DataTable({
           data: res.data.visitors,
+          dom: 'Bfrtip',
+          buttons: [
+            {
+              extend: 'excel',
+              text: '<i class="fa-sharp fa-solid fa-file-excel"></i> Exportar Excel',
+              titleAttr: 'Exportar a Excel',
+            },
+            {
+              extend: 'pdf',
+              text: '<i class="fa-solid fa-file-pdf"></i> Exportar PDF',
+              titleAttr: 'Exportar PDF',
+            },
+            {
+              extend: 'print',
+              text: '<i class="fa-solid fa-print"></i> Imprimir Reporte',
+              titleAttr: 'Exportar PDF',
+            },
+          ],
+
           columns: [
-            { data: 'arrivalDate' },
-            { data: 'departureDate' },
+            { data: 'entrada' },
+            { data: 'horaEntrada' },
+            { data: 'salida' },
+            { data: 'horaSalida' },
             { data: 'fullName' },
             { data: 'name' },
             { data: 'residente' },
+            { data: 'guardia' },
           ],
           bDestroy: true,
           responsive: true,
@@ -47,6 +69,5 @@ document.querySelector('#generateReporte').addEventListener('click', (e) => {
   const initialDate = document.getElementById('initalDate').value;
   const endDate = document.getElementById('endDate').value;
 
-  console.log(initialDate, endDate);
   generarReporte(initialDate, endDate);
 });

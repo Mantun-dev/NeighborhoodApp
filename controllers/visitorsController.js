@@ -159,6 +159,20 @@ const reports = async (req, res) => {
   try {
     let { initialDate, endDate } = req.body;
 
+    if (!initialDate || !endDate) {
+      return res.status(404).json({
+        status: 'fail',
+        msg: 'Por favor introduza un rango de fechas valido',
+      });
+    }
+
+    if (initialDate > endDate) {
+      return res.status(404).json({
+        status: 'fail',
+        msg: 'La fecha inicial no puede ser mayor que la fecha final',
+      });
+    }
+
     const { _token } = req.cookies;
     const decoded = jwt.verify(_token, process.env.JWT_SECRET);
     initialDate = new Date(initialDate);
@@ -189,7 +203,7 @@ const reports = async (req, res) => {
       visitors,
     });
   } catch (error) {
-    return res.status(200).json({
+    return res.status(404).json({
       status: 'fail',
       msg: error,
     });

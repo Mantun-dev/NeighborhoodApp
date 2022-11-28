@@ -71,9 +71,12 @@ const newNeighborhood = async (req, res) => {
   });
 };
 const userProfile = async (req, res) => {
+  const { _token } = req.cookies;
+  const decoded = jwt.verify(_token, process.env.JWT_SECRET);
   res.status(200).render('auth/userProfile', {
     page: 'Neighborhoods',
     barra: true,
+    name: decoded.name,
   });
 };
 

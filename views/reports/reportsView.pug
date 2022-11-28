@@ -1,23 +1,35 @@
 extends ../layout/index
 block contenido
-    div.container.w-auto.mx-auto.px-2.my-4.flex.gap-4(class='md:w-4/5 xl:w-3/5 flex-initial')
-        input#initalDate(type="date")
-        input#endDate(type="date")
-        button#generateReporte(class="w-1/2 bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer rounded-lg" type="submit" ) Generar Reporte 
-    div
+    //- div.container.w-auto.mx-auto.px-2.my-4.flex.gap-4(class='md:w-4/5 xl:w-3/5')
+    div.flex(class="gap-3 py-4 lg:flex-row")
+        input#initalDate(type="date" ).rounded
+        input#endDate(type="date").rounded
+        button#generateReporte(class=" bg-indigo-400 hover:bg-indigo-700 text-white font-bold py-3 px-2 cursor-pointer rounded-lg" type="submit" ) Generar Reporte 
+
         .container.w-auto.mx-auto.px-2(class='md:w-4/5 xl:w-3/5 ')
     .bg-stone-500.text-gray-100.text-center.rounded
         //- p.text-xl Residentes de la colonia #{neighborhood}
-    #recipients.p-8.mt-6.rounded.shadow.bg-white(class='lg:mt-0 mb-10 ')
-        table#reports.stripe.hover(style='width:100%; padding-top: 1em;  padding-bottom: 1em ;')
+    #recipients.p-8.mt-6.rounded.shadow.bg-white(class='lg:mt-0 mb-10')
+        table#reports.stripe.hover(style='width:100%; padding-top: 1rem;  padding-bottom: 1rem ;')
             thead
                 tr.bg-indigo-400.bg-opacity-100.text-white
 
-                    th(data-priority='1') FECHA Y HORA DE ENTRADA
-                    th(data-priority='2') FECHA Y HORA DE SALIDA
-                    th(data-priority='3') VISITANTE
-                    th(data-priority='4') COLONIA
-                    th(data-priority='5') RESIDENTE
+                    th(data-priority='1')
+                        div(class="flex justify-center") Entrada
+                    th(data-priority='1')
+                        div(class="flex justify-center") Hora Entrada
+                    th(data-priority='2')
+                        div(class="flex justify-center") Salida
+                    th(data-priority='2')
+                        div(class="flex justify-center") Hora Salida
+                    th(data-priority='3')
+                        div(class="flex justify-center") Visitante
+                    th(data-priority='4')
+                        div(class="flex justify-center") Colonia
+                    th(data-priority='5')
+                        div(class="flex justify-center") Residente
+                    th(data-priority='6')
+                        div(class="flex justify-center") Guardia
 
 
             tbody
