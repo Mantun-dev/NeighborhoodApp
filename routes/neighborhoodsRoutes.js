@@ -8,13 +8,18 @@ import {
   deleteNeighborhood,
 } from '../controllers/neighborhoodsController.js';
 
+import routeProtection from '../middlewares/routeProtection.js';
+
 const router = express.Router();
 
-router.route('/').get(getAllNeighborhoods).post(newNeighborhood);
+router
+  .route('/')
+  .get(routeProtection, getAllNeighborhoods)
+  .post(routeProtection, newNeighborhood);
 router
   .route('/:id')
-  .get(getNeighborhood)
-  .patch(updateNeighborhood)
-  .delete(deleteNeighborhood);
+  .get(routeProtection, getNeighborhood)
+  .patch(routeProtection, updateNeighborhood)
+  .delete(routeProtection, deleteNeighborhood);
 
 export default router;

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+
 import { checkPassToken, checkToken } from './tokensController.js';
 
 const loginForm = async (req, res) => {
@@ -47,6 +48,7 @@ const forgotPass = async (req, res) => {
 const accountConfirmationEmail = async (req, res) => {
   const { token } = req.params;
   const userToken = await checkToken(token);
+
   if (userToken !== null) {
     res.status(200).render('auth/forgotPassword', {
       page: 'Account Confirmation',
@@ -74,7 +76,7 @@ const userProfile = async (req, res) => {
   const { _token } = req.cookies;
   const decoded = jwt.verify(_token, process.env.JWT_SECRET);
   res.status(200).render('auth/userProfile', {
-    page: 'Neighborhoods',
+    page: 'Profile',
     barra: true,
     name: decoded.name,
   });

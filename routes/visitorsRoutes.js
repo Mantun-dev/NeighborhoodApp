@@ -8,6 +8,7 @@ import {
   deleteVisitor,
   arrival,
   reports,
+  visitorRecords,
 } from '../controllers/visitorsController.js';
 import routeProtection from '../middlewares/routeProtection.js';
 
@@ -18,6 +19,7 @@ router
   .get(routeProtection, getAllVisitors)
   .post(routeProtection, newVisitor);
 router.route('/reports').post(routeProtection, reports);
+router.route('/history').post(routeProtection, visitorRecords);
 router
   .route('/:id')
   .get(routeProtection, getVisitor)

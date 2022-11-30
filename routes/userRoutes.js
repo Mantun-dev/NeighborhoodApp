@@ -9,6 +9,7 @@ import {
 } from '../controllers/usersController.js';
 
 import {
+  usersLogin,
   signOut,
   adminLogin,
   forgotPassRequest,
@@ -31,7 +32,7 @@ router
       .withMessage('Por favor introduzca una contrasena'),
     adminLogin
   );
-router.route('/logout').get(signOut);
+router.route('/logout').get(routeProtection, signOut);
 router.route('/forgotpassword').post(forgotPassRequest);
 router.route('/selfregistration').post(selfRegistration);
 
@@ -55,6 +56,7 @@ router
 
     newUser
   );
+router.route('/users-login').post(usersLogin);
 router
   .route('/:id')
   .get(routeProtection, getUser)

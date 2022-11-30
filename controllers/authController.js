@@ -8,27 +8,26 @@ import { signToken } from '../helpers/tokens.js';
 // ? LOGGIN
 
 const usersLogin = async (req, res, next) => {
-  let result = validationResult(req);
-
-  if (!result.isEmpty()) {
-    return res.status(400).json({
-      status: 'fail',
-      msg: 'Por favor complete todos los campos para poder iniciar sesion',
-    });
-  }
-
   const { email, password } = req.body;
 
   if (!email || !password) {
     return res.status(400).json({
       status: 'fail',
-      msg: 'Por favor introduza un correo y una contraseñas ',
+      msg: 'Por favor introduza un correo y una contraseña',
     });
   }
 
   const user = await User.findOne({
     where: { email },
-    attributes: ['id', 'password', 'fullName', 'confirmed'],
+    attributes: [
+      'id',
+      'password',
+      'fullName',
+      'confirmed',
+      'rol',
+      'colID',
+      'status',
+    ],
   });
 
   if (!user) {
@@ -52,7 +51,12 @@ const usersLogin = async (req, res, next) => {
       msg: 'Usuario o contraseñas invalido',
     });
   }
-  const token = signToken({ id: user.id, name: user.fullName });
+  const token = signToken({
+    id: user.id,
+    name: user.fullName,
+    rol: user.rol,
+    neighborhoodID: user.colID,
+  });
 
   res
     .cookie('_token', token, {
@@ -173,9 +177,21 @@ const forgotPassRequest = async (req, res) => {
 };
 
 // ? FORT PASSWORD UPDATE
+
+const IsPassword = (pass) => {
+  const regex = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/;
+  return regex.test(pass);
+};
 const updatePassword = async (req, res, next) => {
   const { token } = req.params;
   const { password } = req.body;
+
+  if (!IsPassword(password)) {
+    return res.status(200).render('auth/forgotPassword', {
+      page: 'Reset Password',
+      top: 'La contraseña debe tener entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.',
+    });
+  }
 
   const user = await User.findOne({
     where: { token },

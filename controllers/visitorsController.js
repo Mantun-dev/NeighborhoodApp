@@ -1,5 +1,4 @@
 import { nanoid } from 'nanoid';
-import { JSON, Op } from 'sequelize';
 import db from '../config/db.js';
 import jwt from 'jsonwebtoken';
 import { Visitor, Guest } from '../models/relationsModel.js';
@@ -17,7 +16,7 @@ const newVisitor = async (req, res) => {
   try {
     const { arrivalDate } = req.body;
 
-    const { dni, fullName, phone, colID } = req.body;
+    const { dni, fullName, phone, colID, userID } = req.body;
 
     const guest = await Guest.findOne({ where: { dni } });
 
@@ -33,7 +32,7 @@ const newVisitor = async (req, res) => {
       securityCode: nanoid(10),
       arrivalDate,
       guestID: guest.id,
-      userID: 1,
+      userID,
       colID,
     });
 
@@ -44,7 +43,7 @@ const newVisitor = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(404).json({
+    return res.status(401).json({
       status: 'fail',
       msg: 'Por favor complete todos los campos necesarios',
     });
@@ -57,13 +56,23 @@ const getVisitor = async (req, res) => {
 
     const visitor = await Visitor.findOne({ where: { id } });
 
+    if (!visitor) {
+      return res.status(404).json({
+        status: 'ok',
+        msg: 'No exite este visitante en nuestros registros',
+      });
+    }
+
     return res.status(200).json({
       status: 'ok',
       msg: 'Se ha encontrado el siguiente visitante',
       visitor,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(401).json({
+      status: 'fail',
+      msg: error,
+    });
   }
 };
 
@@ -75,7 +84,7 @@ const arrival = async (req, res) => {
     const visitor = await Visitor.findOne({ where: { id } });
 
     if (!visitor || visitor.departureDate != null) {
-      return res.status(500).json({
+      return res.status(401).json({
         status: 'fail',
         msg: 'Esta visita no existe o el codigo ha expirado',
       });
@@ -109,7 +118,7 @@ const departure = async (req, res) => {
     // await visitor.update({ guardID, departureDate: new Date() });
 
     if (!visitor) {
-      return res.status(404).json({
+      return res.status(401).json({
         status: 'ok',
         msg: 'La visita no existe',
         test,
@@ -117,7 +126,7 @@ const departure = async (req, res) => {
     }
 
     if (visitor.departureDate != null) {
-      return res.status(404).json({
+      return res.status(401).json({
         status: 'fail',
         msg: 'El codigo de salida ya ha sido registrado',
       });
@@ -147,10 +156,32 @@ const departure = async (req, res) => {
 };
 
 const deleteVisitor = async (req, res) => {
-  return res.status(200).json({
-    status: 'ok',
-    msg: 'Visitor Deleted',
-  });
+  try {
+    const { id } = req.params;
+
+    const visitor = await Visitor.findOne({ where: { id } });
+
+    if (!visitor) {
+      return res.status(404).json({
+        status: 'fail',
+        msg: 'La visite no existe',
+      });
+    }
+
+    await visitor.destroy();
+
+    return res.status(200).json({
+      status: 'ok',
+      msg: 'Se ha eliminado la visita',
+      visitor,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: 'fail',
+      msg: error,
+    });
+  }
 };
 
 // ? FUNCION PARA LOS REPORTES
@@ -160,14 +191,14 @@ const reports = async (req, res) => {
     let { initialDate, endDate } = req.body;
 
     if (!initialDate || !endDate) {
-      return res.status(404).json({
+      return res.status(401).json({
         status: 'fail',
         msg: 'Por favor introduza un rango de fechas valido',
       });
     }
 
     if (initialDate > endDate) {
-      return res.status(404).json({
+      return res.status(401).json({
         status: 'fail',
         msg: 'La fecha inicial no puede ser mayor que la fecha final',
       });
@@ -203,7 +234,54 @@ const reports = async (req, res) => {
       visitors,
     });
   } catch (error) {
-    return res.status(404).json({
+    return res.status(500).json({
+      status: 'fail',
+      msg: error,
+    });
+  }
+};
+
+const visitorRecords = async (req, res) => {
+  try {
+    let { initialDate, endDate } = req.body;
+    const { userID } = req.body;
+
+    if (!initialDate || !endDate) {
+      return res.status(401).json({
+        status: 'fail',
+        msg: 'Por favor introduza un rango de fechas valido',
+      });
+    }
+
+    if (initialDate > endDate) {
+      return res.status(401).json({
+        status: 'fail',
+        msg: 'La fecha inicial no puede ser mayor que la fecha final',
+      });
+    }
+
+    initialDate = new Date(initialDate);
+    endDate = new Date(endDate);
+
+    const visitorsHistory = await db.query(
+      'CALL VISTOR_RECORD(:_USER_ID, :_INITIAL_DATE, :_END_DATE)',
+      {
+        replacements: {
+          _USER_ID: userID,
+          _INITIAL_DATE: initialDate,
+          _END_DATE: endDate,
+        },
+      }
+    );
+
+    return res.status(200).json({
+      status: 'ok',
+      msg: 'Generando Reporte',
+      visitorsHistory,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
       status: 'fail',
       msg: error,
     });
@@ -218,4 +296,5 @@ export {
   departure,
   deleteVisitor,
   reports,
+  visitorRecords,
 };

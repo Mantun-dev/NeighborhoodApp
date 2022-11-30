@@ -6,6 +6,7 @@ const signToken = (datos) =>
       id: datos.id,
       name: datos.name,
       neighborhoodID: datos.neighborhoodID,
+      rol: datos.rol,
     },
     process.env.JWT_SECRET,
     {
