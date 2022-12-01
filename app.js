@@ -28,3 +28,5 @@ app.use('/api/v1/visitors', visitorsRoute);
 app.use('/api/v1/neighborhoods', neighborhoodsRoutes);
 
 export default app;
+
+console.log('Hola Mundio');
