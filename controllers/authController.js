@@ -31,13 +31,13 @@ const usersLogin = async (req, res, next) => {
   });
 
   if (!user) {
-    return res.status(400).json({
+    return res.status(404).json({
       status: 'fail',
       msg: 'Usuario o contraseñas invalido',
     });
   }
   if (!user.confirmed) {
-    return res.status(400).json({
+    return res.status(404).json({
       status: 'fail',
       msg: 'El usuario aun no ha sido confirmado',
     });
@@ -58,6 +58,8 @@ const usersLogin = async (req, res, next) => {
     neighborhoodID: user.colID,
   });
 
+  delete user.password;
+
   res
     .cookie('_token', token, {
       httpOnly: true,
@@ -67,6 +69,7 @@ const usersLogin = async (req, res, next) => {
       status: 'ok',
       msg: `Bienvenido ${user.fullName}`,
       token,
+      user,
     });
 };
 

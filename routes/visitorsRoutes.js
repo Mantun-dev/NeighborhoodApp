@@ -17,14 +17,11 @@ const router = express.Router();
 router
   .route('/')
   .get(routeProtection, getAllVisitors)
-  .post(routeProtection, newVisitor);
+  .post(newVisitor)
+  .patch(arrival)
+  .put(departure);
 router.route('/reports').post(routeProtection, reports);
 router.route('/history').post(routeProtection, visitorRecords);
-router
-  .route('/:id')
-  .get(routeProtection, getVisitor)
-  .put(routeProtection, departure)
-  .delete(routeProtection, deleteVisitor)
-  .patch(routeProtection, arrival);
+router.route('/:id').get(getVisitor).delete(deleteVisitor);
 
 export default router;

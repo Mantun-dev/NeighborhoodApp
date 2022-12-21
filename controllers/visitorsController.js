@@ -14,9 +14,7 @@ const getAllVisitors = async (req, res) => {
 
 const newVisitor = async (req, res) => {
   try {
-    const { arrivalDate } = req.body;
-
-    const { dni, fullName, phone, colID, userID } = req.body;
+    const { dni, fullName, phone, colID, userID, arrivalDate } = req.body;
 
     const guest = await Guest.findOne({ where: { dni } });
 
@@ -39,7 +37,9 @@ const newVisitor = async (req, res) => {
     return res.status(200).json({
       status: 'ok',
       msg: 'Visita creada exitosamente',
-      nVisitor,
+      fullName,
+      arrivalDate,
+      securityCode: nVisitor.securityCode,
     });
   } catch (error) {
     console.log(error);
@@ -80,22 +80,28 @@ const getVisitor = async (req, res) => {
 
 const arrival = async (req, res) => {
   try {
-    const { id } = req.params;
-    const visitor = await Visitor.findOne({ where: { id } });
+    const { guardID, securityCode } = req.body;
+    const check = await Visitor.findOne({ where: { securityCode } });
 
-    if (!visitor || visitor.departureDate != null) {
+    if (!check || check.departureDate != null) {
       return res.status(401).json({
         status: 'fail',
         msg: 'Esta visita no existe o el codigo ha expirado',
       });
     }
 
-    const { guardID } = req.body;
-    await visitor.update({ guardID, arrivalDate: new Date() });
+    const visitor = await db.query('CALL ARRIVAL(:_SECURITY_CODE)', {
+      replacements: {
+        _SECURITY_CODE: securityCode,
+      },
+    });
+
+    await check.update({ guardID, arrivalDate: new Date() });
 
     return res.status(200).json({
       status: 'ok',
       msg: 'La visita ha llegado',
+      visitor,
     });
   } catch (error) {
     return res.status(500).json({
@@ -109,11 +115,10 @@ const arrival = async (req, res) => {
 
 const departure = async (req, res) => {
   try {
-    const { guardID } = req.body;
-    const { id } = req.params;
+    const { guardID, securityCode } = req.body;
     const departureDate = new Date();
 
-    const visitor = await Visitor.findOne({ where: { id } });
+    const visitor = await Visitor.findOne({ where: { securityCode } });
 
     // await visitor.update({ guardID, departureDate: new Date() });
 
@@ -121,7 +126,6 @@ const departure = async (req, res) => {
       return res.status(401).json({
         status: 'ok',
         msg: 'La visita no existe',
-        test,
       });
     }
 
@@ -132,16 +136,13 @@ const departure = async (req, res) => {
       });
     }
 
-    const test = await db.query(
-      'CALL VISITOR_DEPARTURE(:_ID, :_GUARDID, :_DEPARTUREDATE)',
-      {
-        replacements: {
-          _ID: id,
-          _GUARDID: guardID,
-          _DEPARTUREDATE: departureDate,
-        },
-      }
-    );
+    await db.query('CALL VISITOR_DEPARTURE(:_ID, :_GUARDID, :_DEPARTUREDATE)', {
+      replacements: {
+        _ID: visitor.id,
+        _GUARDID: guardID,
+        _DEPARTUREDATE: departureDate,
+      },
+    });
 
     return res.status(200).json({
       status: 'ok',
@@ -209,13 +210,6 @@ const reports = async (req, res) => {
     initialDate = new Date(initialDate);
     endDate = new Date(endDate);
     const colID = decoded.neighborhoodID;
-
-    // const visitors = await Visitor.findAll({
-    //   where: {
-    //     colID,
-    //     arrivalDate: { [Op.between]: [initialDate, endDate] },
-    //   },
-    // });
 
     const visitors = await db.query(
       'CALL VISITOR_REPORTS(:_COL_ID, :_INITIAL_DATE, :_END_DATE)',
